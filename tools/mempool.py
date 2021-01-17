@@ -51,9 +51,9 @@ def main():
     args = parser.parse_args()
 
     if args.testnet:
-        d = Daemon(port=18332, cookie_dir='~/.fujicoin/testnet3')
+        d = Daemon(port=13776, cookie_dir='~/.fujicoin/testnet3')
     else:
-        d = Daemon(port=8332, cookie_dir='~/.fujicoin')
+        d = Daemon(port=3776, cookie_dir='~/.fujicoin')
 
     txids, = d.request('getrawmempool', [[False]])
     txids = list(map(lambda a: [a], txids))

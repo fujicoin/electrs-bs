@@ -5,7 +5,6 @@ use std::{cmp, fs, path, thread};
 
 use serde_json::Value as JsonValue;
 
-use elements::fujicoin_hashes::hex::FromHex;
 use elements::AssetId;
 
 use crate::errors::*;

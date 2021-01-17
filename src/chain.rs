@@ -53,9 +53,9 @@ impl Network {
 
     pub fn magic(self) -> u32 {
         match self {
-            Network::Fujicoin => 0xD9B4_BEF9,
-            Network::Testnet => 0x0709_110B,
-            Network::Regtest => 0xDAB5_BFFA,
+            Network::Fujicoin => 0x696A_7566,
+            Network::Testnet => 0x6675_6A69,
+            Network::Regtest => 0x6675_6A69,
 
             #[cfg(feature = "liquid")]
             Network::Liquid => 0xDAB5_BFFA,

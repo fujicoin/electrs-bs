@@ -125,7 +125,7 @@ impl Config {
             .arg(
                 Arg::with_name("daemon_rpc_addr")
                     .long("daemon-rpc-addr")
-                    .help("Fujicoin daemon JSONRPC 'addr:port' to connect (default: 127.0.0.1:8332 for mainnet, 127.0.0.1:18332 for testnet and 127.0.0.1:18443 for regtest)")
+                    .help("Fujicoin daemon JSONRPC 'addr:port' to connect (default: 127.0.0.1:3776 for mainnet, 127.0.0.1:13776 for testnet and 127.0.0.1:16776 for regtest)")
                     .takes_value(true),
             )
             .arg(
@@ -245,9 +245,9 @@ impl Config {
         let asset_db_path = m.value_of("asset_db_path").map(PathBuf::from);
 
         let default_daemon_port = match network_type {
-            Network::Fujicoin => 8332,
-            Network::Testnet => 18332,
-            Network::Regtest => 18443,
+            Network::Fujicoin => 3776,
+            Network::Testnet => 13776,
+            Network::Regtest => 16776,
 
             #[cfg(feature = "liquid")]
             Network::Liquid => 7041,
@@ -265,9 +265,9 @@ impl Config {
             Network::LiquidRegtest => 51401,
         };
         let default_http_port = match network_type {
-            Network::Fujicoin => 3000,
-            Network::Testnet => 3001,
-            Network::Regtest => 3002,
+            Network::Fujicoin => 3100,
+            Network::Testnet => 3101,
+            Network::Regtest => 3102,
 
             #[cfg(feature = "liquid")]
             Network::Liquid => 3000,
