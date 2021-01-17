@@ -1,7 +1,7 @@
-use bitcoin::{BlockHash, Txid};
+use fujicoin::{BlockHash, Txid};
 
 #[cfg(feature = "liquid")]
-use bitcoin::hashes::hex::FromHex;
+use fujicoin::hashes::hex::FromHex;
 
 use crate::chain::{OutPoint, Transaction, TxIn, TxOut};
 use crate::util::BlockId;

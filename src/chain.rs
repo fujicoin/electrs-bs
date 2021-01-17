@@ -1,5 +1,5 @@
-#[cfg(not(feature = "liquid"))] // use regular Bitcoin data structures
-pub use bitcoin::{util::address, Block, BlockHeader, OutPoint, Transaction, TxIn, TxOut};
+#[cfg(not(feature = "liquid"))] // use regular Fujicoin data structures
+pub use fujicoin::{util::address, Block, BlockHeader, OutPoint, Transaction, TxIn, TxOut};
 
 #[cfg(feature = "liquid")]
 pub use {
@@ -10,10 +10,10 @@ pub use {
     },
 };
 
-use bitcoin::blockdata::constants::genesis_block;
-use bitcoin::network::constants::Network as BNetwork;
-use bitcoin::util::hash::BitcoinHash;
-use bitcoin::BlockHash;
+use fujicoin::blockdata::constants::genesis_block;
+use fujicoin::network::constants::Network as BNetwork;
+use fujicoin::util::hash::FujicoinHash;
+use fujicoin::BlockHash;
 
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
@@ -30,7 +30,7 @@ lazy_static! {
 
 #[derive(Debug, Copy, Clone, PartialEq, Hash, Serialize, Ord, PartialOrd, Eq)]
 pub enum Network {
-    Bitcoin,
+    Fujicoin,
     Testnet,
     Regtest,
 
@@ -46,14 +46,14 @@ impl Network {
             return *block_hash;
         }
 
-        let block_hash = genesis_block(BNetwork::from(self)).bitcoin_hash();
+        let block_hash = genesis_block(BNetwork::from(self)).fujicoin_hash();
         CACHED_GENESIS.write().unwrap().insert(self, block_hash);
         block_hash
     }
 
     pub fn magic(self) -> u32 {
         match self {
-            Network::Bitcoin => 0xD9B4_BEF9,
+            Network::Fujicoin => 0xD9B4_BEF9,
             Network::Testnet => 0x0709_110B,
             Network::Regtest => 0xDAB5_BFFA,
 
@@ -106,7 +106,7 @@ impl Network {
 impl From<&str> for Network {
     fn from(network_name: &str) -> Self {
         match network_name {
-            "mainnet" => Network::Bitcoin,
+            "mainnet" => Network::Fujicoin,
             "testnet" => Network::Testnet,
             "regtest" => Network::Regtest,
 
@@ -115,7 +115,7 @@ impl From<&str> for Network {
             #[cfg(feature = "liquid")]
             "liquidregtest" => Network::LiquidRegtest,
 
-            _ => panic!("unsupported Bitcoin network: {:?}", network_name),
+            _ => panic!("unsupported Fujicoin network: {:?}", network_name),
         }
     }
 }
@@ -123,12 +123,12 @@ impl From<&str> for Network {
 impl From<Network> for BNetwork {
     fn from(network: Network) -> Self {
         match network {
-            Network::Bitcoin => BNetwork::Bitcoin,
+            Network::Fujicoin => BNetwork::Fujicoin,
             Network::Testnet => BNetwork::Testnet,
             Network::Regtest => BNetwork::Regtest,
 
             #[cfg(feature = "liquid")]
-            Network::Liquid => BNetwork::Bitcoin, // @FIXME
+            Network::Liquid => BNetwork::Fujicoin, // @FIXME
             #[cfg(feature = "liquid")]
             Network::LiquidRegtest => BNetwork::Regtest, // @FIXME
         }
@@ -139,12 +139,12 @@ impl From<BNetwork> for Network {
     fn from(network: BNetwork) -> Self {
         match network {
             #[cfg(not(feature = "liquid"))]
-            BNetwork::Bitcoin => Network::Bitcoin,
+            BNetwork::Fujicoin => Network::Fujicoin,
             #[cfg(not(feature = "liquid"))]
             BNetwork::Regtest => Network::Regtest,
 
             #[cfg(feature = "liquid")]
-            BNetwork::Bitcoin => Network::Liquid, // @FIXME
+            BNetwork::Fujicoin => Network::Liquid, // @FIXME
             #[cfg(feature = "liquid")]
             BNetwork::Regtest => Network::LiquidRegtest, // @FIXME
             BNetwork::Testnet => Network::Testnet, // @FIXME

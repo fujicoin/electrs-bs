@@ -3,7 +3,7 @@ import hashlib
 import sys
 import argparse
 
-from pycoin.coins.bitcoin.networks import BitcoinTestnet, BitcoinMainnet
+from pycoin.coins.fujicoin.networks import FujicoinTestnet, FujicoinMainnet
 
 import client
 
@@ -14,10 +14,10 @@ def main():
     args = parser.parse_args()
 
     if args.testnet:
-        Network = BitcoinTestnet
+        Network = FujicoinTestnet
         port = 60001
     else:
-        Network = BitcoinMainnet
+        Network = FujicoinMainnet
         port = 50001
 
     conn = client.Connection(('localhost', port))

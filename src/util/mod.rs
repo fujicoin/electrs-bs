@@ -17,14 +17,14 @@ use std::sync::mpsc::{channel, sync_channel, Receiver, Sender, SyncSender};
 use std::thread;
 
 use crate::chain::BlockHeader;
-use bitcoin::hashes::sha256d::Hash as Sha256dHash;
+use fujicoin::hashes::sha256d::Hash as Sha256dHash;
 use socket2::{Domain, Protocol, Socket, Type};
 use std::net::SocketAddr;
 
 pub type Bytes = Vec<u8>;
 pub type HeaderMap = HashMap<Sha256dHash, BlockHeader>;
 
-// TODO: consolidate serialization/deserialize code for bincode/bitcoin.
+// TODO: consolidate serialization/deserialize code for bincode/fujicoin.
 const HASH_LEN: usize = 32;
 
 pub type FullHash = [u8; HASH_LEN];
@@ -133,9 +133,9 @@ pub fn create_socket(addr: &SocketAddr) -> Socket {
 ///
 /// The module is compatible with the serde attribute.
 ///
-/// Copied from https://github.com/rust-bitcoin/rust-bitcoincore-rpc/blob/master/json/src/lib.rs
+/// Copied from https://github.com/rust-fujicoin/rust-fujicoincore-rpc/blob/master/json/src/lib.rs
 pub mod serde_hex {
-    use bitcoin::hashes::hex::{FromHex, ToHex};
+    use fujicoin::hashes::hex::{FromHex, ToHex};
     use serde::de::Error;
     use serde::{Deserializer, Serializer};
 
@@ -149,7 +149,7 @@ pub mod serde_hex {
     }
 
     pub mod opt {
-        use bitcoin::hashes::hex::{FromHex, ToHex};
+        use fujicoin::hashes::hex::{FromHex, ToHex};
         use serde::de::Error;
         use serde::{Deserializer, Serializer};
 

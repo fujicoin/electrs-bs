@@ -2,7 +2,7 @@ use crate::chain::BlockHeader;
 use crate::errors::*;
 use crate::new_index::BlockEntry;
 
-use bitcoin::{BitcoinHash, BlockHash};
+use fujicoin::{FujicoinHash, BlockHash};
 
 use std::collections::HashMap;
 use std::fmt;
@@ -97,7 +97,7 @@ impl HeaderList {
                 panic!(
                     "missing expected blockhash in headers map: {:?}, pointed from: {:?}",
                     blockhash,
-                    headers_chain.last().map(|h| h.bitcoin_hash())
+                    headers_chain.last().map(|h| h.fujicoin_hash())
                 )
             });
             blockhash = header.prev_blockhash;
@@ -124,7 +124,7 @@ impl HeaderList {
         }
         let hashed_headers =
             Vec::<HashedHeader>::from_iter(new_headers.into_iter().map(|header| HashedHeader {
-                blockhash: header.bitcoin_hash(),
+                blockhash: header.fujicoin_hash(),
                 header,
             }));
         for i in 1..hashed_headers.len() {
@@ -237,7 +237,7 @@ impl HeaderList {
     /// Get the Median Time Past
     pub fn get_mtp(&self, height: usize) -> u32 {
         // Use the timestamp as the mtp of the genesis block.
-        // Matches bitcoind's behaviour: bitcoin-cli getblock `bitcoin-cli getblockhash 0` | jq '.time == .mediantime'
+        // Matches fujicoind's behaviour: fujicoin-cli getblock `fujicoin-cli getblockhash 0` | jq '.time == .mediantime'
         if height == 0 {
             self.headers.get(0).unwrap().header.time
         } else if height > self.len() - 1 {

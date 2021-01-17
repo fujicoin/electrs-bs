@@ -12,20 +12,20 @@
 * Optimize block headers processing during startup
 * Handle TCP disconnections during long RPCs
 * Use # of CPUs for bulk indexing threads
-* Update rust-bitcoin to 0.14
+* Update rust-fujicoin to 0.14
 * Optimize block headers processing during startup
 
 
 # 0.3.1 (20 Aug 2018)
 
-* Reconnect to bitcoind only on transient errors
+* Reconnect to fujicoind only on transient errors
 * Poll mempool after transaction broadcasting
 
 # 0.3.0 (14 Aug 2018)
 
 * Optimize for low-memory systems
 * Improve compaction performance
-* Handle disconnections from bitcoind by retrying
+* Handle disconnections from fujicoind by retrying
 * Make `blk*.dat` ingestion more robust
 * Support regtest network
 * Support more Electrum RPC methods
@@ -36,12 +36,12 @@
 
 # 0.2.0 (14 Jul 2018)
 
-* Allow specifying custom bitcoind data directory
+* Allow specifying custom fujicoind data directory
 * Allow specifying JSONRPC cookie from commandline
 * Improve initial bulk indexing performance
 * Support 32-bit systems
 
 # 0.1.0 (2 Jul 2018)
 
-* Announcement: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-July/016190.html
+* Announcement: https://lists.linuxfoundation.org/pipermail/fujicoin-dev/2018-July/016190.html
 * Published to https://crates.io/electrs and https://docs.rs/electrs

@@ -4,13 +4,13 @@ import sys
 
 from logbook import Logger, StreamHandler
 
-from pycoin.coins.bitcoin.networks import BitcoinMainnet
+from pycoin.coins.fujicoin.networks import FujicoinMainnet
 import pycoin.ui.key_from_text
 import pycoin.key
 
 import client
 
-script_for_address = BitcoinMainnet.ui.script_for_address
+script_for_address = FujicoinMainnet.ui.script_for_address
 
 log = Logger(__name__)
 
@@ -32,14 +32,14 @@ def main():
             confirmed = result['confirmed'] / 1e8
             total += confirmed
             if confirmed:
-                log.info('{}/{} => {} has {:11.8f} BTC',
+                log.info('{}/{} => {} has {:11.8f} FJC',
                          change, n, address, confirmed)
                 empty = 0
             else:
                 empty += 1
                 if empty >= 10:
                     break
-    log.info('total balance: {} BTC', total)
+    log.info('total balance: {} FJC', total)
 
 
 if __name__ == '__main__':

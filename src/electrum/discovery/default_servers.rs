@@ -3,7 +3,7 @@ use crate::electrum::discovery::{DiscoveryManager, Service};
 
 pub fn add_default_servers(discovery: &DiscoveryManager, network: Network) {
     match network {
-        Network::Bitcoin => {
+        Network::Fujicoin => {
             discovery
                 .add_default_server(
                     "3smoooajg7qqac2y.onion".into(),
@@ -48,19 +48,19 @@ pub fn add_default_servers(discovery: &DiscoveryManager, network: Network) {
                 .ok();
             discovery
                 .add_default_server(
-                    "bitcoin.corgi.party".into(),
+                    "fujicoin.corgi.party".into(),
                     vec![Service::Tcp(50001), Service::Ssl(50002)],
                 )
                 .ok();
             discovery
                 .add_default_server(
-                    "bitcoin3nqy3db7c.onion".into(),
+                    "fujicoin3nqy3db7c.onion".into(),
                     vec![Service::Tcp(50001), Service::Ssl(50002)],
                 )
                 .ok();
             discovery
                 .add_default_server(
-                    "bitcoins.sk".into(),
+                    "fujicoins.sk".into(),
                     vec![Service::Tcp(50001), Service::Ssl(50002)],
                 )
                 .ok();
@@ -348,7 +348,7 @@ pub fn add_default_servers(discovery: &DiscoveryManager, network: Network) {
                 .ok();
             discovery
                 .add_default_server(
-                    "bitcoin.dragon.zone".into(),
+                    "fujicoin.dragon.zone".into(),
                     vec![Service::Tcp(50003), Service::Ssl(50004)],
                 )
                 .ok();
@@ -434,7 +434,7 @@ pub fn add_default_servers(discovery: &DiscoveryManager, network: Network) {
                 .ok();
             discovery
                 .add_default_server(
-                    "bitcoin.cluelessperson.com".into(),
+                    "fujicoin.cluelessperson.com".into(),
                     vec![Service::Tcp(51001), Service::Ssl(51002)],
                 )
                 .ok();

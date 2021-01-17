@@ -1,15 +1,15 @@
-use bitcoin::blockdata::script::Script;
-use bitcoin::hashes::sha256d::Hash as Sha256dHash;
+use fujicoin::blockdata::script::Script;
+use fujicoin::hashes::sha256d::Hash as Sha256dHash;
 #[cfg(not(feature = "liquid"))]
-use bitcoin::util::merkleblock::MerkleBlock;
-use bitcoin::{BlockHash, Txid, VarInt};
+use fujicoin::util::merkleblock::MerkleBlock;
+use fujicoin::{BlockHash, Txid, VarInt};
 use crypto::digest::Digest;
 use crypto::sha2::Sha256;
 use itertools::Itertools;
 use rayon::prelude::*;
 
 #[cfg(not(feature = "liquid"))]
-use bitcoin::consensus::encode::{deserialize, serialize};
+use fujicoin::consensus::encode::{deserialize, serialize};
 #[cfg(feature = "liquid")]
 use elements::{
     encode::{deserialize, serialize},
@@ -293,7 +293,7 @@ impl Indexer {
         assert_eq!(tip, *headers.tip());
 
         if let FetchFrom::BlkFiles = self.from {
-            self.from = FetchFrom::Bitcoind;
+            self.from = FetchFrom::Fujicoind;
         }
 
         Ok(tip)
@@ -1410,7 +1410,7 @@ impl TxHistoryInfo {
 #[derive(Serialize, Deserialize)]
 pub struct TxHistoryKey {
     pub code: u8,              // H for script history or I for asset history (elements only)
-    pub hash: FullHash, // either a scripthash (always on bitcoin) or an asset id (elements only)
+    pub hash: FullHash, // either a scripthash (always on fujicoin) or an asset id (elements only)
     pub confirmed_height: u32, // MUST be serialized as big-endian (for correct scans).
     pub txinfo: TxHistoryInfo,
 }

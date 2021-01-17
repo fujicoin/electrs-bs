@@ -1,10 +1,10 @@
 use crate::chain::Block;
 
-use bitcoin::{BitcoinHash, BlockHash};
+use fujicoin::{FujicoinHash, BlockHash};
 use rayon::prelude::*;
 
 #[cfg(not(feature = "liquid"))]
-use bitcoin::consensus::encode::{deserialize, Decodable};
+use fujicoin::consensus::encode::{deserialize, Decodable};
 #[cfg(feature = "liquid")]
 use elements::encode::{deserialize, Decodable};
 
@@ -21,7 +21,7 @@ use crate::util::{spawn_thread, HeaderEntry, SyncChannel};
 
 #[derive(Clone, Copy, Debug)]
 pub enum FetchFrom {
-    Bitcoind,
+    Fujicoind,
     BlkFiles,
 }
 
@@ -31,7 +31,7 @@ pub fn start_fetcher(
     new_headers: Vec<HeaderEntry>,
 ) -> Result<Fetcher<Vec<BlockEntry>>> {
     let fetcher = match from {
-        FetchFrom::Bitcoind => bitcoind_fetcher,
+        FetchFrom::Fujicoind => fujicoind_fetcher,
         FetchFrom::BlkFiles => blkfiles_fetcher,
     };
     fetcher(daemon, new_headers)
@@ -66,7 +66,7 @@ impl<T> Fetcher<T> {
     }
 }
 
-fn bitcoind_fetcher(
+fn fujicoind_fetcher(
     daemon: &Daemon,
     new_headers: Vec<HeaderEntry>,
 ) -> Result<Fetcher<Vec<BlockEntry>>> {
@@ -78,12 +78,12 @@ fn bitcoind_fetcher(
     let sender = chan.sender();
     Ok(Fetcher::from(
         chan.into_receiver(),
-        spawn_thread("bitcoind_fetcher", move || {
+        spawn_thread("fujicoind_fetcher", move || {
             for entries in new_headers.chunks(100) {
                 let blockhashes: Vec<BlockHash> = entries.iter().map(|e| *e.hash()).collect();
                 let blocks = daemon
                     .getblocks(&blockhashes)
-                    .expect("failed to get blocks from bitcoind");
+                    .expect("failed to get blocks from fujicoind");
                 assert_eq!(blocks.len(), entries.len());
                 let block_entries: Vec<BlockEntry> = blocks
                     .into_iter()
@@ -124,7 +124,7 @@ fn blkfiles_fetcher(
                 let block_entries: Vec<BlockEntry> = sizedblocks
                     .into_iter()
                     .filter_map(|(block, size)| {
-                        let blockhash = block.bitcoin_hash();
+                        let blockhash = block.fujicoin_hash();
                         entry_map
                             .remove(&blockhash)
                             .map(|entry| BlockEntry { block, entry, size })

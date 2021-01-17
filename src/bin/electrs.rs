@@ -1,4 +1,4 @@
-extern crate bitcoin;
+extern crate fujicoin;
 extern crate error_chain;
 #[macro_use]
 extern crate log;
@@ -33,7 +33,7 @@ fn fetch_from(config: &Config, store: &Store) -> FetchFrom {
 
     if jsonrpc_import {
         // slower, uses JSONRPC (good for incremental updates)
-        FetchFrom::Bitcoind
+        FetchFrom::Fujicoind
     } else {
         // faster, uses blk*.dat files (good for initial indexing)
         FetchFrom::BlkFiles

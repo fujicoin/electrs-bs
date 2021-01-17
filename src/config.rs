@@ -63,7 +63,7 @@ fn str_to_socketaddr(address: &str, what: &str) -> SocketAddr {
 impl Config {
     pub fn from_args() -> Config {
         let network_help = format!(
-            "Select Bitcoin network type ({})",
+            "Select Fujicoin network type ({})",
             Network::names().join(", ")
         );
 
@@ -89,19 +89,19 @@ impl Config {
             .arg(
                 Arg::with_name("daemon_dir")
                     .long("daemon-dir")
-                    .help("Data directory of Bitcoind (default: ~/.bitcoin/)")
+                    .help("Data directory of Fujicoind (default: ~/.fujicoin/)")
                     .takes_value(true),
             )
             .arg(
                 Arg::with_name("blocks_dir")
                     .long("blocks-dir")
-                    .help("Analogous to bitcoind's -blocksdir option, this specifies the directory containing the raw blocks files (blk*.dat) (default: ~/.bitcoin/blocks/)")
+                    .help("Analogous to fujicoind's -blocksdir option, this specifies the directory containing the raw blocks files (blk*.dat) (default: ~/.fujicoin/blocks/)")
                     .takes_value(true),
             )
             .arg(
                 Arg::with_name("cookie")
                     .long("cookie")
-                    .help("JSONRPC authentication cookie ('USER:PASSWORD', default: read from ~/.bitcoin/.cookie)")
+                    .help("JSONRPC authentication cookie ('USER:PASSWORD', default: read from ~/.fujicoin/.cookie)")
                     .takes_value(true),
             )
             .arg(
@@ -125,7 +125,7 @@ impl Config {
             .arg(
                 Arg::with_name("daemon_rpc_addr")
                     .long("daemon-rpc-addr")
-                    .help("Bitcoin daemon JSONRPC 'addr:port' to connect (default: 127.0.0.1:8332 for mainnet, 127.0.0.1:18332 for testnet and 127.0.0.1:18443 for regtest)")
+                    .help("Fujicoin daemon JSONRPC 'addr:port' to connect (default: 127.0.0.1:8332 for mainnet, 127.0.0.1:18332 for testnet and 127.0.0.1:18443 for regtest)")
                     .takes_value(true),
             )
             .arg(
@@ -236,7 +236,7 @@ impl Config {
             .value_of("parent_network")
             .map(Network::from)
             .unwrap_or_else(|| match network_type {
-                Network::Liquid => Network::Bitcoin,
+                Network::Liquid => Network::Fujicoin,
                 Network::LiquidRegtest => Network::Regtest,
                 _ => panic!("unknown liquid network, --parent-network is required"),
             });
@@ -245,7 +245,7 @@ impl Config {
         let asset_db_path = m.value_of("asset_db_path").map(PathBuf::from);
 
         let default_daemon_port = match network_type {
-            Network::Bitcoin => 8332,
+            Network::Fujicoin => 8332,
             Network::Testnet => 18332,
             Network::Regtest => 18443,
 
@@ -255,7 +255,7 @@ impl Config {
             Network::LiquidRegtest => 7041,
         };
         let default_electrum_port = match network_type {
-            Network::Bitcoin => 50001,
+            Network::Fujicoin => 50001,
             Network::Testnet => 60001,
             Network::Regtest => 60401,
 
@@ -265,7 +265,7 @@ impl Config {
             Network::LiquidRegtest => 51401,
         };
         let default_http_port = match network_type {
-            Network::Bitcoin => 3000,
+            Network::Fujicoin => 3000,
             Network::Testnet => 3001,
             Network::Regtest => 3002,
 
@@ -275,7 +275,7 @@ impl Config {
             Network::LiquidRegtest => 3002,
         };
         let default_monitoring_port = match network_type {
-            Network::Bitcoin => 4224,
+            Network::Fujicoin => 4224,
             Network::Testnet => 14224,
             Network::Regtest => 24224,
 
@@ -288,7 +288,7 @@ impl Config {
         let daemon_rpc_addr: SocketAddr = str_to_socketaddr(
             m.value_of("daemon_rpc_addr")
                 .unwrap_or(&format!("127.0.0.1:{}", default_daemon_port)),
-            "Bitcoin RPC",
+            "Fujicoin RPC",
         );
         let electrum_rpc_addr: SocketAddr = str_to_socketaddr(
             m.value_of("electrum_rpc_addr")
@@ -313,11 +313,11 @@ impl Config {
             .map(PathBuf::from)
             .unwrap_or_else(|| {
                 let mut default_dir = home_dir().expect("no homedir");
-                default_dir.push(".bitcoin");
+                default_dir.push(".fujicoin");
                 default_dir
             });
         match network_type {
-            Network::Bitcoin => (),
+            Network::Fujicoin => (),
             Network::Testnet => daemon_dir.push("testnet3"),
             Network::Regtest => daemon_dir.push("regtest"),
 

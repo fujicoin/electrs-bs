@@ -1,4 +1,4 @@
-use bitcoin::blockdata::script::{Instruction::PushBytes, Script};
+use fujicoin::blockdata::script::{Instruction::PushBytes, Script};
 
 #[cfg(feature = "liquid")]
 use elements::address as elements_address;
@@ -18,7 +18,7 @@ pub fn script_to_address(script: &Script, network: Network) -> Option<String> {
             elements_address::Address::from_script(script, None, network.address_params())
                 .map(|a| a.to_string())
         }
-        _ => bitcoin::Address::from_script(script, network.into()).map(|s| s.to_string()),
+        _ => fujicoin::Address::from_script(script, network.into()).map(|s| s.to_string()),
     }
 }
 

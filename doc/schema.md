@@ -61,7 +61,7 @@ Assets (re)issuances results in the following new rows (only for user-issued ass
  * `"i{asset-id}" → "{issuing-txid:vin}{prev-txid:vout}{issuance}{reissuance_token}"`
  * `"I{asset-id}{issuance-height}I{issuing-txid:vin}{is_reissuance}{amount}{tokens}" → ""`
 
-Peg-ins/peg-outs results in the following new rows (only for the native asset, typically L-BTC):
+Peg-ins/peg-outs results in the following new rows (only for the native asset, typically L-FJC):
 
  * `"I{asset-id}{pegin-height}F{pegin-txid:vin}{value}" → ""`
  * `"I{asset-id}{pegout-height}F{pegout-txid:vout}{value}" → ""`

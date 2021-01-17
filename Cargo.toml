@@ -6,7 +6,7 @@ description = "An efficient re-implementation of Electrum Server in Rust"
 license = "MIT"
 homepage = "https://github.com/romanz/electrs"
 repository = "https://github.com/romanz/electrs"
-keywords = ["bitcoin", "electrum", "server", "index", "database"]
+keywords = ["fujicoin", "electrum", "server", "index", "database"]
 documentation = "https://docs.rs/electrs/"
 readme = "README.md"
 edition = "2018"
@@ -57,7 +57,7 @@ tokio = { version = "=0.2.6", features = ["sync", "macros"] }
 # optional dependencies for electrum-discovery
 electrum-client = { version = "0.1.0-beta.6", optional = true }
 
-[dependencies.bitcoin]
+[dependencies.fujicoin]
 version = "0.23.0"
 features = ["use-serde"]
 
@@ -74,8 +74,8 @@ lto = true
 panic = 'abort'
 codegen-units = 1
 
-[patch.crates-io.bitcoin]
-git = "https://github.com/blockstream/rust-bitcoin"
+[patch.crates-io.fujicoin]
+git = "https://github.com/blockstream/rust-fujicoin"
 rev = "0.23-electrs"
 
 [patch.crates-io.elements]

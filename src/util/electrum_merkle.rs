@@ -1,5 +1,5 @@
-use bitcoin::hashes::{sha256d::Hash as Sha256dHash, Hash};
-use bitcoin::{BlockHash, Txid};
+use fujicoin::hashes::{sha256d::Hash as Sha256dHash, Hash};
+use fujicoin::{BlockHash, Txid};
 
 use crate::errors::*;
 use crate::new_index::ChainQuery;

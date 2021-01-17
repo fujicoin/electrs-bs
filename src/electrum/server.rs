@@ -5,8 +5,8 @@ use std::sync::mpsc::{Sender, SyncSender, TrySendError};
 use std::sync::{Arc, Mutex};
 use std::thread;
 
-use bitcoin::hashes::sha256d::Hash as Sha256dHash;
-use bitcoin::Txid;
+use fujicoin::hashes::sha256d::Hash as Sha256dHash;
+use fujicoin::Txid;
 use crypto::digest::Digest;
 use crypto::sha2::Sha256;
 use error_chain::ChainedError;
@@ -14,7 +14,7 @@ use hex;
 use serde_json::{from_str, Value};
 
 #[cfg(not(feature = "liquid"))]
-use bitcoin::consensus::encode::serialize;
+use fujicoin::consensus::encode::serialize;
 #[cfg(feature = "liquid")]
 use elements::encode::serialize;
 
@@ -257,13 +257,13 @@ impl Connection {
             .query
             .estimate_fee(conf_target as u16)
             .chain_err(|| format!("cannot estimate fee for {} blocks", conf_target))?;
-        // convert from sat/b to BTC/kB, as expected by Electrum clients
+        // convert from sat/b to FJC/kB, as expected by Electrum clients
         Ok(json!(fee_rate / 100_000f64))
     }
 
     fn blockchain_relayfee(&self) -> Result<Value> {
         let relayfee = self.query.get_relayfee()?;
-        // convert from sat/b to BTC/kB, as expected by Electrum clients
+        // convert from sat/b to FJC/kB, as expected by Electrum clients
         Ok(json!(relayfee / 100_000f64))
     }
 

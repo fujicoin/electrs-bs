@@ -9,10 +9,10 @@ use crate::util::{
 };
 
 #[cfg(not(feature = "liquid"))]
-use bitcoin::consensus::encode;
-use bitcoin::hashes::hex::{FromHex, ToHex};
-use bitcoin::hashes::Error as HashError;
-use bitcoin::{BitcoinHash, BlockHash, Script, Txid};
+use fujicoin::consensus::encode;
+use fujicoin::hashes::hex::{FromHex, ToHex};
+use fujicoin::hashes::Error as HashError;
+use fujicoin::{FujicoinHash, BlockHash, Script, Txid};
 use hex::{self, FromHexError};
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Method, Response, Server, StatusCode};
@@ -84,7 +84,7 @@ impl BlockValue {
     fn new(blockhm: BlockHeaderMeta, network: Network) -> Self {
         let header = blockhm.header_entry.header();
         BlockValue {
-            id: header.bitcoin_hash().to_hex(),
+            id: header.fujicoin_hash().to_hex(),
             height: blockhm.header_entry.height() as u32,
             version: header.version,
             timestamp: header.time,
@@ -104,7 +104,7 @@ impl BlockValue {
             #[cfg(not(feature = "liquid"))]
             nonce: header.nonce,
             #[cfg(not(feature = "liquid"))]
-            difficulty: header.difficulty(bitcoin::Network::from(network)),
+            difficulty: header.difficulty(fujicoin::Network::from(network)),
 
             #[cfg(feature = "liquid")]
             ext: Some(json!(header.ext)),
@@ -959,7 +959,7 @@ fn handle_request(
 
             let height = query
                 .chain()
-                .height_by_hash(&merkleblock.header.bitcoin_hash());
+                .height_by_hash(&merkleblock.header.fujicoin_hash());
 
             http_message(
                 StatusCode::OK,
@@ -1290,16 +1290,16 @@ impl From<FromHexError> for HttpError {
         HttpError::from("Invalid hex string".to_string())
     }
 }
-impl From<bitcoin::hashes::hex::Error> for HttpError {
-    fn from(_e: bitcoin::hashes::hex::Error) -> Self {
+impl From<fujicoin::hashes::hex::Error> for HttpError {
+    fn from(_e: fujicoin::hashes::hex::Error) -> Self {
         //HttpError::from(e.description().to_string())
         HttpError::from("Invalid hex string".to_string())
     }
 }
-impl From<bitcoin::util::address::Error> for HttpError {
-    fn from(_e: bitcoin::util::address::Error) -> Self {
+impl From<fujicoin::util::address::Error> for HttpError {
+    fn from(_e: fujicoin::util::address::Error) -> Self {
         //HttpError::from(e.description().to_string())
-        HttpError::from("Invalid Bitcoin address".to_string())
+        HttpError::from("Invalid Fujicoin address".to_string())
     }
 }
 impl From<errors::Error> for HttpError {

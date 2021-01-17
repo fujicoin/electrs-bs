@@ -1,4 +1,4 @@
-use bitcoin::{hashes::hex::ToHex, Script};
+use fujicoin::{hashes::hex::ToHex, Script};
 use elements::{confidential::Asset, PeginData, PegoutData, TxIn, TxOut};
 
 use crate::chain::Network;
