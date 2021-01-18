@@ -12,7 +12,7 @@ use crate::util::{
 use fujicoin::consensus::encode;
 use fujicoin::hashes::hex::{FromHex, ToHex};
 use fujicoin::hashes::Error as HashError;
-use fujicoin::{FujicoinHash, BlockHash, Script, Txid};
+use fujicoin::{BlockHash, Script, Txid};
 use hex::{self, FromHexError};
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Method, Response, Server, StatusCode};
@@ -58,7 +58,7 @@ const CONF_FINAL: usize = 10; // reorgs deeper than this are considered unlikely
 struct BlockValue {
     id: String,
     height: u32,
-    version: u32,
+    version: i32,
     timestamp: u32,
     tx_count: u32,
     size: u32,
@@ -84,7 +84,7 @@ impl BlockValue {
     fn new(blockhm: BlockHeaderMeta, network: Network) -> Self {
         let header = blockhm.header_entry.header();
         BlockValue {
-            id: header.fujicoin_hash().to_hex(),
+            id: header.block_hash().to_hex(),
             height: blockhm.header_entry.height() as u32,
             version: header.version,
             timestamp: header.time,
@@ -115,7 +115,7 @@ impl BlockValue {
 #[derive(Serialize, Deserialize)]
 struct TransactionValue {
     txid: Txid,
-    version: u32,
+    version: i32,
     locktime: u32,
     vin: Vec<TxInValue>,
     vout: Vec<TxOutValue>,
@@ -959,7 +959,7 @@ fn handle_request(
 
             let height = query
                 .chain()
-                .height_by_hash(&merkleblock.header.fujicoin_hash());
+                .height_by_hash(&merkleblock.header.block_hash());
 
             http_message(
                 StatusCode::OK,

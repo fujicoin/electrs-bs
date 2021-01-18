@@ -12,7 +12,6 @@ pub use {
 
 use fujicoin::blockdata::constants::genesis_block;
 use fujicoin::network::constants::Network as BNetwork;
-use fujicoin::util::hash::FujicoinHash;
 use fujicoin::BlockHash;
 
 use std::collections::HashMap;
@@ -46,7 +45,7 @@ impl Network {
             return *block_hash;
         }
 
-        let block_hash = genesis_block(BNetwork::from(self)).fujicoin_hash();
+        let block_hash = genesis_block(BNetwork::from(self)).block_hash();
         CACHED_GENESIS.write().unwrap().insert(self, block_hash);
         block_hash
     }
